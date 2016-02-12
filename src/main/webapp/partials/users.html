@@ -1,0 +1,30 @@
+<div class="well page">
+
+    <h3>Users list</h3>
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-search"></span>
+            <input type="text" id="addon3a" class="form-control" placeholder="Search for" ng-model="query">
+        </div>
+    </div>
+
+
+    <div id="userList" >
+        <div class="list-group">
+            <div class="list-group-item">
+                <div ng-repeat="user in users | filter:query" class="list-group-item" style="margin-top:16px">
+                    <div class="row-picture">
+                        <img class="circle" ng-src="{{user.imageUrl}}" alt="image">
+                    </div>
+                    <div class="row-content">
+                        <h4 class="list-group-item-heading">{{user.firstName}} {{user.familyName}}</h4>
+
+                        <p class="list-group-item-text"><i class="glyphicon glyphicon-envelope"></i> {{user.email}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
