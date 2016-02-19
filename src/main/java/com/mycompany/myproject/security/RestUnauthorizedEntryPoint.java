@@ -2,7 +2,6 @@ package com.mycompany.myproject.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import java.io.IOException;
 /**
  * Returns a 401 error code (Unauthorized) to the client.
  */
-@Component
 public class RestUnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
     /**

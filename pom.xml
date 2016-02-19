@@ -10,14 +10,14 @@
 
     <properties>
         <java-version>1.7</java-version>
-        <org.aspectj-version>1.6.10</org.aspectj-version>
-        <jackson.version>1.9.13</jackson.version>
-        <hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
         <org.springframework-version>4.2.1.RELEASE</org.springframework-version>
         <org.slf4j-version>1.6.6</org.slf4j-version>
-        <springfox-version>2.2.2</springfox-version>
         <spring-security.version>4.0.3.RELEASE</spring-security.version>
         <spring-social-version>1.1.4.RELEASE</spring-social-version>
+        <spring-social-twitter.version>1.1.0.RELEASE</spring-social-twitter.version>
+        <spring-social-github.version>1.0.0.M4</spring-social-github.version>
+        <spring-social-linkedin.version>1.0.0.RELEASE</spring-social-linkedin.version>
+        <spring-social-google.version>1.0.0.RELEASE</spring-social-google.version>
     </properties>
 
     <repositories>
@@ -38,20 +38,10 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${org.springframework-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>1.6.0.RELEASE</version>
             <exclusions>
                 <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-context</artifactId>
-                    <groupId>org.springframework</groupId>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -67,19 +57,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${org.springframework-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.6.1</version>
-        </dependency>
-
 
         <!-- security -->
         <dependency>
@@ -110,33 +87,27 @@
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-linkedin</artifactId>
-            <version>1.0.0.RELEASE</version>
+            <version>${spring-social-linkedin.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-github</artifactId>
-            <version>1.0.0.M4</version>
+            <version>${spring-social-github.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-twitter</artifactId>
-            <version>1.0.0.RELEASE</version>
+            <version>${spring-social-twitter.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-google</artifactId>
-            <version>1.0.0.RELEASE</version>
+            <version>${spring-social-google.version}</version>
         </dependency>
 
-        <!-- Hibernate -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.2.6.Final</version>
-        </dependency>
 
         <!-- hsql -->
         <dependency>
@@ -204,12 +175,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-version}</version>
-        </dependency>
-
         <!-- test -->
         <dependency>
             <groupId>junit</groupId>
@@ -223,6 +188,11 @@
             <artifactId>spring-test</artifactId>
             <version>${org.springframework-version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>4.2.1.RELEASE</version>
         </dependency>
 
 

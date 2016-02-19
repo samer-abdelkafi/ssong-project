@@ -1,6 +1,9 @@
 package com.mycompany.myproject.config;
 
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -9,12 +12,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 
 @Configuration
 @Import({SecurityConfig.class})
 @EnableWebMvc
-@EnableSwagger2
 @ComponentScan(basePackages = { "com.mycompany.myproject.web.controller" })
 public class MvcConfig extends WebMvcConfigurerAdapter {
 

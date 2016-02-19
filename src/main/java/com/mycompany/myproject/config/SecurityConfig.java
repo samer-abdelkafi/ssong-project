@@ -1,6 +1,8 @@
 package com.mycompany.myproject.config;
 
 
+import com.mycompany.myproject.security.RestAccessDeniedHandler;
+import com.mycompany.myproject.security.RestAuthenticationFailureHandler;
 import com.mycompany.myproject.security.RestUnauthorizedEntryPoint;
 import com.mycompany.myproject.social.SimpleSocialUsersDetailService;
 import org.slf4j.Logger;
@@ -15,14 +17,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -39,28 +41,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         logger.info("loading SecurityConfig ................................................ ");
     }
 
-
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private RestUnauthorizedEntryPoint restAuthenticationEntryPoint;
-
-    @Autowired
-    private AccessDeniedHandler restAccessDeniedHandler;
+    private DataSource dataSource;
 
     @Autowired
     private AuthenticationSuccessHandler restAuthenticationSuccessHandler;
 
-    @Autowired
-    private AuthenticationFailureHandler restAuthenticationFailureHandler;
 
     @Autowired
-    private RememberMeServices rememberMeServices;
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(dataSource);
     }
 
     @Override
@@ -75,18 +65,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .headers().disable()
             .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/v2/api-docs", "/users/**").hasAnyAuthority("admin")
                 .antMatchers("/failure", "/favicon.ico","/auth/**","/signup/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
             .exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
-                .accessDeniedHandler(restAccessDeniedHandler)
+                .authenticationEntryPoint(new RestUnauthorizedEntryPoint())
+                .accessDeniedHandler(new RestAccessDeniedHandler())
                 .and()
             .formLogin()
                 .loginProcessingUrl("/authenticate")
                 .successHandler(restAuthenticationSuccessHandler)
-                .failureHandler(restAuthenticationFailureHandler)
+                .failureHandler(new RestAuthenticationFailureHandler())
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()
@@ -103,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
             .rememberMe()
-                .rememberMeServices(rememberMeServices)
+                .tokenRepository(persistentTokenRepository())
                 .key(REMEMBER_ME_KEY);
 
     }
@@ -112,5 +101,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SocialUserDetailsService socialUsersDetailService() {
         return new SimpleSocialUsersDetailService(userDetailsService());
     }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        return tokenRepository;
+    }
+
 
 }

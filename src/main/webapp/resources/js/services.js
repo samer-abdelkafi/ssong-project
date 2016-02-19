@@ -8,10 +8,7 @@ myapp.service('Session', function () {
         this.lastName = data.familyName;
         this.email = data.email;
         this.imageUrl = data.imageUrl;
-        this.userRoles = [];
-        angular.forEach(data.authorities, function (value, key) {
-            this.push(value.name);
-        }, this.userRoles);
+        this.userRoles = data.authorities;
     };
     this.invalidate = function () {
         this.id = null;
@@ -19,7 +16,7 @@ myapp.service('Session', function () {
         this.firstName = null;
         this.lastName = null;
         this.email = null;
-        this.pictureUrl = null;
+        this.imageUrl = null;
         this.userRoles = null;
     };
     return this;

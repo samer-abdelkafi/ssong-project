@@ -1,10 +1,15 @@
 package com.mycompany.myproject.persist.repo;
 
+import com.mycompany.myproject.persist.entity.Profile;
 import com.mycompany.myproject.persist.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 
-public interface UserRepo extends JpaRepository<User, Long> {
-    User findByLogin(String login);
+public interface UserRepo {
 
+    User findByUserName(String login);
+
+    List<User> findAll();
+
+    void createUser(String userId, Profile profile);
 }

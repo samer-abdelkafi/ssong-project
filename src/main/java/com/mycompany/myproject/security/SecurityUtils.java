@@ -1,6 +1,5 @@
 package com.mycompany.myproject.security;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.myproject.model.Error;
 import com.mycompany.myproject.model.Response;
