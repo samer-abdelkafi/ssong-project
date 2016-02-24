@@ -9,6 +9,8 @@ myapp.service('Session', function () {
         this.email = data.email;
         this.imageUrl = data.imageUrl;
         this.userRoles = data.authorities;
+        this.providerId = data.providerId;
+        this.profileUrl = data.profileUrl;
     };
     this.invalidate = function () {
         this.id = null;
@@ -18,6 +20,8 @@ myapp.service('Session', function () {
         this.email = null;
         this.imageUrl = null;
         this.userRoles = null;
+        this.providerId = null;
+        this.profileUrl = null;
     };
     return this;
 });

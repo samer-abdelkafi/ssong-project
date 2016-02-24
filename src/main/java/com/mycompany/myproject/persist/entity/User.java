@@ -22,6 +22,10 @@ public class User {
 
 	private String password;
 
+	private String profileUrl;
+
+	private String providerId;
+
 	private Set<String> authorities = new HashSet<String>();
 
 	public String getFirstName() {
@@ -94,5 +98,21 @@ public class User {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getProfileUrl() {
+		return profileUrl;
+	}
+
+	public void setProfileUrl(String profileUrl) {
+		this.profileUrl = profileUrl;
+	}
+
+	public String getProviderId() {
+		return providerId;
+	}
+
+	public void setProviderId(String providerId) {
+		this.providerId = providerId;
 	}
 }

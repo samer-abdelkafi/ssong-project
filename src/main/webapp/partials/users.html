@@ -18,10 +18,8 @@
                         <img class="circle" ng-src="{{user.imageUrl}}" alt="image">
                     </div>
                     <div class="row-content">
-                        <h4 class="list-group-item-heading">{{user.firstName}} {{user.familyName}}</h4>
-
-                        <p class="list-group-item-text"><i class="glyphicon glyphicon-envelope"></i> {{user.email}}
-                        </p>
+                        <h4 class="list-group-item-heading">{{user.firstName}} {{user.familyName}} <a target="_blank" ng-href="{{user.profileUrl}}"><i class="fa fa-{{user.providerId}}"></i></a></h4>
+                        <p ng-if="user.email !== null" class="list-group-item-text"><i class="glyphicon glyphicon-envelope"></i> {{user.email}} </p>
                     </div>
                 </div>
             </div>

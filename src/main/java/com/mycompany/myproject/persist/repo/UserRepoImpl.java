@@ -34,7 +34,8 @@ public class UserRepoImpl implements UserRepo {
     }
 
     private static final String QUERY_USERS =
-            " SELECT up.userId, up.email, up.firstName, up.lastName, up.name,  up.username, up.imageUrl, au.authority" +
+            " SELECT up.userId, up.email, up.firstName, up.lastName, up.name,  up.username, " +
+                    " up.imageUrl, au.authority, uc.providerId, uc.profileUrl " +
                     " FROM UserProfile up " +
                     " LEFT OUTER JOIN UserConnection uc ON uc.userId = up.userId " +
                     " LEFT OUTER JOIN authorities au ON au.username = up.userId ";
@@ -58,7 +59,7 @@ public class UserRepoImpl implements UserRepo {
     public void createUser(String userId, Profile profile) {
         jdbcTemplate.update("INSERT into users(username,password,enabled) values(?,?,true)", userId, RandomStringUtils.randomAlphanumeric(8));
         jdbcTemplate.update("INSERT into authorities(username,authority) values(?,?)", userId, "user");
-        jdbcTemplate.update("INSERT into userProfile(userId, email, firstName, lastName, name, username, imageUrl) values(?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT into UserProfile(userId, email, firstName, lastName, name, username, imageUrl) values(?,?,?,?,?,?,?)",
                 userId,
                 profile.getEmail(),
                 profile.getFirstName(),
@@ -94,6 +95,8 @@ public class UserRepoImpl implements UserRepo {
             user.setFamilyName(rs.getString("lastName"));
             user.setEmail(rs.getString("email"));
             user.setImageUrl(rs.getString("imageUrl"));
+            user.setProfileUrl(rs.getString("profileUrl"));
+            user.setProviderId(rs.getString("providerId"));
             return user;
         }
 
