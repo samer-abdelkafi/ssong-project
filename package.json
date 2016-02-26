@@ -19,7 +19,8 @@
     "gulp-flatten" : "0.2.0",
     "gulp-rimraf": "0.2.0",
     "gulp-debug": "2.1.2",
-    "gulp-uncss": "1.0.4"
+    "gulp-uncss": "1.0.4",
+    "gulp.spritesmith": "6.2.0"
   },
   "jspm": {
     "dependencies": {

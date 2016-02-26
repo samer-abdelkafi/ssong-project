@@ -1,0 +1,53 @@
+/*
+Icon classes can be used entirely standalone. They are named after their original file names.
+
+```html
+<!-- `display: block` sprite -->
+<div class="icon-home"></div>
+
+<!-- `display: inline-block` sprite -->
+<img class="icon-home" />
+```
+*/
+.icon-angular {
+  background-image: url(../img/sprite.png);
+  background-position: 0px 0px;
+  width: 55px;
+  height: 55px;
+}
+.icon-bootstrap {
+  background-image: url(../img/sprite.png);
+  background-position: -55px 0px;
+  width: 55px;
+  height: 55px;
+}
+.icon-bower {
+  background-image: url(../img/sprite.png);
+  background-position: 0px -55px;
+  width: 55px;
+  height: 55px;
+}
+.icon-gulp {
+  background-image: url(../img/sprite.png);
+  background-position: -55px -55px;
+  width: 55px;
+  height: 55px;
+}
+.icon-maven {
+  background-image: url(../img/sprite.png);
+  background-position: -110px 0px;
+  width: 55px;
+  height: 55px;
+}
+.icon-spring {
+  background-image: url(../img/sprite.png);
+  background-position: -110px -55px;
+  width: 55px;
+  height: 55px;
+}
+.icon-swagger {
+  background-image: url(../img/sprite.png);
+  background-position: 0px -110px;
+  width: 55px;
+  height: 55px;
+}

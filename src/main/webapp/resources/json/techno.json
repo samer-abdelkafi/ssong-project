@@ -3,19 +3,19 @@
     "name": "Spring",
     "description": "Spring-Social",
     "website": "http://projects.spring.io/spring-social",
-    "logo": "spring.png"
+    "logo": "spring"
   },
   {
     "name": "Angular",
     "description": "Front-end framework",
     "website": "angular.io",
-    "logo": "angular.png"
+    "logo": "angular"
   },
   {
     "name": "Bootstrap",
     "description": "Front-end css framework",
     "website": "getbootstrap.com",
-    "logo": "bootstrap.png"
+    "logo": "bootstrap"
   },
   {
     "name": "Bootstrap material",
@@ -27,19 +27,19 @@
     "name": "Gulp",
     "description": "Task runner for web resources optimization",
     "website": "gulpjs.com",
-    "logo": "gulp.png"
+    "logo": "gulp"
   },
   {
     "name": "Bower",
     "description": "Front-end dependencies management",
     "website": "bower.io",
-    "logo": "bower.png"
+    "logo": "bower"
   },
   {
     "name": "Maven",
     "description": "Software project management",
     "website": "maven.apache.org",
-    "logo": "maven.png"
+    "logo": "maven"
   },
   {
     "name": "Frontend maven plugin",

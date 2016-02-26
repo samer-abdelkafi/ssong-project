@@ -14,10 +14,12 @@ var flatten = require('gulp-flatten');
 var rimraf = require('gulp-rimraf');
 var debug = require('gulp-debug');
 var uncss = require('gulp-uncss');
+var spritesmith = require('gulp.spritesmith');
 
 var vendorJs;
 var vendorCss;
-
+var appJs;
+var appCss;
 
 options = {
     html: ['src/main/webapp//**/*.html'],
@@ -53,7 +55,11 @@ options = {
 //});
 
 gulp.task('clean', function () {
-    return gulp.src('src/main/webapp/resources/vendor', {read: false})
+
+    gulp.src('src/main/webapp/resources/dist', {read: false})
+        .pipe(rimraf());
+
+    gulp.src('src/main/webapp/resources/vendor', {read: false})
         .pipe(rimraf());
 });
 
@@ -64,7 +70,7 @@ gulp.task('lib-js-files', function () {
         .pipe(uglify())
         .pipe(gulp.dest('src/main/webapp/resources/vendor/js'));
 
-    vendorJs.pipe(clone())
+    return vendorJs.pipe(clone())
         .pipe(gzip())
         .pipe(gulp.dest('src/main/webapp/resources/vendor/js'));
 });
@@ -72,40 +78,94 @@ gulp.task('lib-js-files', function () {
 
 gulp.task('lib-css-files', function () {
     vendorCss = gulp.src(mainBowerFiles('**/*.css'), {base: 'bower_components'})
-
         .pipe(uncss(options))
         .pipe(debug({title: 'lib-css-files :'}))
         .pipe(minify())
         .pipe(concat('lib.min.css'))
         .pipe(gulp.dest('src/main/webapp/resources/vendor/css'));
 
-    vendorCss.pipe(clone())
+    return vendorCss.pipe(clone())
         .pipe(clone())
         .pipe(gzip())
         .pipe(gulp.dest('src/main/webapp/resources/vendor/css'));
 });
 
+gulp.task('app-js-files', function () {
+    appJs = gulp.src('src/main/webapp/resources/src/js/*js')
+       .pipe(concatVendor('app.min.js'))
+       .pipe(gulp.dest('src/main/webapp/resources/dist/js'));
 
-gulp.task('index', function () {
-    var target = gulp.src("src/main/webapp/index.html");
-    var jsSources = gulp.src(['src/main/webapp/resources/js/*.js'], {read: false})
-        .pipe(order(["**/security.js", "**/app.js"]));
-    var cssSources = gulp.src(['src/main/webapp/resources/css/*.css'], {read: false});
-
-
-    return target.pipe(inject(series(vendorJs, vendorCss, jsSources, cssSources), {relative: true}))
-        .pipe(gulp.dest('src/main/webapp'));
+    return appJs.pipe(clone())
+        .pipe(gzip())
+        .pipe(gulp.dest('src/main/webapp/resources/dist/js'));
 });
 
 
+gulp.task('app-css-files', function () {
+    appCss = gulp.src('src/main/webapp/resources/src/css/*css')
+        .pipe(minify())
+        .pipe(concat('app.min.css'))
+        .pipe(gulp.dest('src/main/webapp/resources/dist/css'));
+
+    return appCss.pipe(clone())
+        .pipe(clone())
+        .pipe(gzip())
+        .pipe(gulp.dest('src/main/webapp/resources/dist/css'));
+});
+
+
+
+
+
 gulp.task('copyFonts', function () {
-    gulp.src('bower_components/**/fonts/*.{ttf,woff,woff2,eof,svg}')
+    return gulp.src('bower_components/**/fonts/*.{ttf,woff,woff2,eof,svg}')
         .pipe(flatten())
         .pipe(gulp.dest('src/main/webapp/resources/vendor/fonts'));
+});
+
+gulp.task('copyImg', function () {
+    return gulp.src('src/main/webapp/resources/src/img/*.{png,jpeg}')
+        .pipe(flatten())
+        .pipe(gulp.dest('src/main/webapp/resources/dist/img'));
+});
+
+gulp.task('sprites', function () {
+    var spriteData = gulp.src('src/main/webapp/resources/src/img/techno/*.png').pipe(spritesmith({
+        imgName: 'sprite.png',
+        cssName: 'sprite.css',
+        imgPath: '../img/sprite.png'
+    }));
+
+
+
+    // Pipe CSS stream through CSS optimizer and onto disk
+    spriteData.css
+        .pipe(gulp.dest('src/main/webapp/resources/src/css/'));
+
+    // Pipe image stream through image optimizer and onto disk
+    return spriteData.img
+        .pipe(gulp.dest('src/main/webapp/resources/src/img'));
+
+});
+
+gulp.task('index', function () {
+
+    //var jsSources = gulp.src(['src/main/webapp/resources/dist/js/*.js'], {read: false})
+    //    .pipe(debug({title: 'index:'}))
+    //    .pipe(order(["**/security.js", "**/app.js"]));
+    var vendorSources = gulp.src(['src/main/webapp/resources/vendor/**/*.{js,css}'], {read: false})
+        .pipe(debug({title: 'index:'}));
+    var appSources = gulp.src(['src/main/webapp/resources/dist/**/*.{js,css}'], {read: false})
+        .pipe(debug({title: 'index:'}));
+
+    return gulp.src("src/main/webapp/index.html")
+        .pipe(inject(series(vendorSources, appSources), {relative: true}))
+        .pipe(gulp.dest('src/main/webapp'));
 });
 
 
 // Default Task
 gulp.task('default', function () {
-    runSequence('clean', 'lib-js-files', 'lib-css-files', 'copyFonts', "index");
+    runSequence('clean', 'lib-js-files', 'app-js-files', 'sprites', 'app-css-files', 'lib-css-files',
+        'copyFonts', 'copyImg', "index");
 });
