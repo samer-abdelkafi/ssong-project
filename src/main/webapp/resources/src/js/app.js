@@ -1,7 +1,7 @@
 'use strict';
 
 var myapp = angular
-    .module('myApp', ['ngResource', 'ngRoute', 'swaggerUi', 'http-auth-interceptor', 'ngAnimate', 'angular-spinkit']);
+    .module('myApp', ['ngResource', 'ngRoute', 'http-auth-interceptor', 'ngAnimate', 'angular-spinkit']);
 
 
 myapp.constant('USER_ROLES', {
