@@ -12,7 +12,6 @@
     "angular-http-auth": "1.2.2",
     "bootstrap": "3.3.5",
     "bootstrap-material-design": "0.4.4",
-    "angular-swagger-ui": "~0.2.3",
     "font-awesome": "4.5.0"
   },
   "private": true,
